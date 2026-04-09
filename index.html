@@ -139,6 +139,31 @@
             </div>
         </section>
 
+        <section class="py-16 px-6 text-center z-10 relative">
+            <div class="max-w-md mx-auto">
+                <h3 class="font-script text-5xl text-salvia-profundo mb-8">Faltan</h3>
+                
+                <div class="grid grid-cols-4 gap-3">
+                    <div class="bg-white/40 backdrop-blur-md border border-salvia-palido/40 rounded-2xl py-4 shadow-sm">
+                        <div id="cd-days" class="text-3xl font-serif text-salvia-profundo font-bold mb-1">00</div>
+                        <div class="text-[9px] font-sans uppercase tracking-[0.2em] opacity-70">Días</div>
+                    </div>
+                    <div class="bg-white/40 backdrop-blur-md border border-salvia-palido/40 rounded-2xl py-4 shadow-sm">
+                        <div id="cd-hours" class="text-3xl font-serif text-salvia-profundo font-bold mb-1">00</div>
+                        <div class="text-[9px] font-sans uppercase tracking-[0.2em] opacity-70">Hrs</div>
+                    </div>
+                    <div class="bg-white/40 backdrop-blur-md border border-salvia-palido/40 rounded-2xl py-4 shadow-sm">
+                        <div id="cd-mins" class="text-3xl font-serif text-salvia-profundo font-bold mb-1">00</div>
+                        <div class="text-[9px] font-sans uppercase tracking-[0.2em] opacity-70">Min</div>
+                    </div>
+                    <div class="bg-white/40 backdrop-blur-md border border-salvia-palido/40 rounded-2xl py-4 shadow-sm">
+                        <div id="cd-secs" class="text-3xl font-serif text-salvia-profundo font-bold mb-1">00</div>
+                        <div class="text-[9px] font-sans uppercase tracking-[0.2em] opacity-70">Seg</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="py-24 px-8 text-center bg-melocoton-rubor">
             <div class="max-w-2xl mx-auto space-y-16">
                 <div class="space-y-4">
@@ -382,6 +407,35 @@
             isPlaying = !isPlaying;
         });
 
+        // --- LÓGICA CUENTA REGRESIVA ---
+        const targetDate = new Date("May 9, 2026 17:00:00").getTime();
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById("cd-days").innerText = "00";
+                document.getElementById("cd-hours").innerText = "00";
+                document.getElementById("cd-mins").innerText = "00";
+                document.getElementById("cd-secs").innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("cd-days").innerText = String(days).padStart(2, '0');
+            document.getElementById("cd-hours").innerText = String(hours).padStart(2, '0');
+            document.getElementById("cd-mins").innerText = String(minutes).padStart(2, '0');
+            document.getElementById("cd-secs").innerText = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
         // --- LÓGICA CARRUSEL 3D (LOOP INFINITO) ---
         const carouselItems = document.querySelectorAll('.carousel-item');
         const length = carouselItems.length;
@@ -392,7 +446,6 @@
             carouselItems.forEach((item, index) => {
                 let diff = index - currentIndex;
 
-                // Lógica de cálculo para ruta circular más corta
                 if (diff > Math.floor(length / 2)) {
                     diff -= length;
                 } else if (diff < -Math.floor(length / 2)) {
@@ -440,7 +493,7 @@
                 item.style.transform = `translateX(${translateX}) scale(${scale}) rotateY(${rotateY}deg)`;
                 item.style.opacity = opacity;
                 item.style.zIndex = zIndex;
-                item.style.pointerEvents = 'auto'; // Permitir clic para rotar hacia cualquier item
+                item.style.pointerEvents = 'auto'; 
             });
         }
 
