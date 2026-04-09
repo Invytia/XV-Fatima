@@ -358,7 +358,7 @@
         const CONFIG = {
             whatsappDestino: "525537173820",
             festejada: "Fátima",
-            googleAppsScriptURL: "" 
+            googleAppsScriptURL: "https://script.google.com/macros/s/AKfycbyNtlYPsynMyARJwjOWb5Cla56s9Ou99wtVc9GsDy3Or-yjmz3mVqf449fgW-T--Gfa/exec" 
         };
 
         const audio = document.getElementById('bgMusic');
@@ -603,6 +603,18 @@
             btn.textContent = "Procesando...";
             btn.disabled = true;
 
+            // ENVÍO AL SPREADSHEET (CONFIRMACIÓN)
+            if(CONFIG.googleAppsScriptURL) {
+                try {
+                    await fetch(CONFIG.googleAppsScriptURL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'text/plain' },
+                        body: JSON.stringify({ type: 'rsvp', nombre: nombre, acompanante: acompanante, asistencia: asistencia })
+                    });
+                } catch(err) { console.log(err); }
+            }
+
             const acompText = acompanante ? `. Nombre del acompañante: ${acompanante}.` : ".";
             const msg = `Hola, confirmo mi asistencia a los XV años de ${CONFIG.festejada}. Mi nombre es: ${nombre}${acompText} Asistencia: ${asistencia}. ¡Gracias!`;
             
@@ -616,8 +628,23 @@
             e.preventDefault();
             const btn = document.getElementById('btn-wish');
             
+            const nombre = document.getElementById('wish-nombre').value;
+            const mensaje = document.getElementById('wish-mensaje').value;
+
             btn.textContent = "Enviando...";
             btn.disabled = true;
+
+            // ENVÍO AL SPREADSHEET (BUENOS DESEOS)
+            if(CONFIG.googleAppsScriptURL) {
+                try {
+                    await fetch(CONFIG.googleAppsScriptURL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'text/plain' },
+                        body: JSON.stringify({ type: 'wish', nombre: nombre, mensaje: mensaje })
+                    });
+                } catch(err) { console.log(err); }
+            }
 
             setTimeout(() => {
                 btn.textContent = "¡Mensaje Enviado!";
