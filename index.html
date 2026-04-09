@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XV Años - Fátima | Invytia</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500&family=Allura&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -20,177 +20,274 @@
                     fontFamily: {
                         'serif': ['Cormorant Garamond', 'serif'],
                         'sans': ['Montserrat', 'sans-serif'],
+                        'script': ['Allura', 'cursive'],
                     }
                 }
             }
         }
     </script>
     <style>
-        .envelope-shadow { box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
-        .fade-in { animation: fadeIn 1.5s ease-in forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        /* Estilo para el scroll suave */
-        html { scroll-behavior: smooth; }
-        
-        /* Animación del sobre abriéndose */
-        .flap-open {
-            transform: rotateX(180deg);
-            transform-origin: top;
-            transition: transform 0.8s ease-in-out;
+        /* Textura de Mármol Premium para el fondo del sobre */
+        .marble-bg {
+            background-color: #f5f5f5;
+            background-image: linear-gradient(125deg, #f0f0f0 25%, transparent 25%), 
+                              linear-gradient(225deg, #f0f0f0 25%, transparent 25%), 
+                              linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+                              linear-gradient(315deg, #f0f0f0 25%, #e8e8e8 25%);
+            background-size: 100px 100px;
+            position: relative;
         }
+        
+        .envelope-shadow { box-shadow: 0 30px 60px rgba(0,0,0,0.25); }
+        
+        /* Animaciones */
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out; }
+        .reveal.show { opacity: 1; transform: translateY(0); }
+        
+        .locked { overflow: hidden; }
+
+        input, select, textarea {
+            background: rgba(255, 255, 255, 0.5) !important;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(107, 122, 99, 0.2) !important;
+            border-radius: 12px !important;
+        }
+        
+        .music-fab {
+            box-shadow: 0 10px 25px rgba(107, 122, 99, 0.3);
+            transition: all 0.3s ease;
+        }
+        .music-fab:active { transform: scale(0.95); }
     </style>
 </head>
-<body class="bg-lino-crudo font-serif text-salvia-profundo overflow-x-hidden">
+<body class="bg-lino-crudo font-serif text-salvia-profundo locked">
 
-    <audio id="bgMusic" src="assets/images/fatima/fatima-cancion.mp3" loop></audio>
+    <audio id="mainAudio" src="assets/images/fatima/fatima-cancion.mp3" loop></audio>
 
-    <div id="overlay" class="fixed inset-0 z-[100] bg-stone-900 flex items-center justify-center p-4 transition-opacity duration-1000">
-        <div class="relative w-full max-w-lg aspect-[4/3] cursor-pointer group" onclick="abrirInvitacion()">
-            <div class="absolute inset-0 bg-salvia-profundo envelope-shadow rounded-sm"></div>
-            
-            <div class="absolute inset-x-4 top-4 bottom-4 bg-melocoton-rubor shadow-inner"></div>
+    <div id="introOverlay" class="fixed inset-0 z-[100] marble-bg flex items-center justify-center p-6 transition-all duration-1000">
+        <div class="absolute inset-0 pointer-events-none opacity-40">
+            <svg class="absolute top-0 left-0 w-64 h-64 rotate-12" viewBox="0 0 200 200">
+                <path fill="#6B7A63" d="M40,100 Q60,40 100,40 T160,100 T100,160 T40,100" opacity="0.2"/>
+            </svg>
+            <svg class="absolute bottom-0 right-0 w-80 h-80 -rotate-12" viewBox="0 0 200 200">
+                <path fill="#6B7A63" d="M40,100 Q60,40 100,40 T160,100 T100,160 T40,100" opacity="0.2"/>
+            </svg>
+        </div>
 
-            <div id="flap" class="absolute inset-0 z-20">
-                <svg viewBox="0 0 500 250" class="w-full fill-salvia-palido drop-shadow-md">
-                    <path d="M0,0 L250,160 L500,0 Z" />
-                </svg>
+        <div class="relative w-full max-w-md text-center">
+            <div class="mb-8 space-y-2">
+                <h2 class="font-script text-5xl text-salvia-profundo/80">Mis XV Años</h2>
+                <h3 class="font-serif font-bold text-2xl tracking-[0.2em] uppercase">Fátima</h3>
+                <p class="font-sans text-[10px] tracking-[0.3em] text-salvia-profundo/60 uppercase">Toca el sello para abrir</p>
             </div>
 
-            <div class="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-24 h-24 bg-salvia-profundo rounded-full shadow-xl flex items-center justify-center border-2 border-white/20">
-                <div class="text-white text-center">
-                    <p class="text-[8px] tracking-[0.3em] font-sans">MIS XV</p>
-                    <p class="text-sm font-semibold tracking-widest italic">Fátima</p>
+            <div id="envelopeTrigger" class="relative aspect-[4/3] cursor-pointer group transform hover:scale-[1.02] transition-transform duration-500" onclick="abrirInvitacion()">
+                <div class="absolute inset-0 bg-salvia-profundo envelope-shadow rounded-sm"></div>
+                <svg viewBox="0 0 500 250" class="absolute top-0 w-full fill-salvia-palido/90 drop-shadow-md z-20">
+                    <path d="M0,0 L250,170 L500,0 Z" />
+                </svg>
+                <div class="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-24 h-24 bg-salvia-profundo rounded-full shadow-2xl flex items-center justify-center border-2 border-white/20">
+                    <div class="text-white text-center">
+                        <p class="font-serif font-bold text-lg tracking-widest">F</p>
+                    </div>
                 </div>
             </div>
-
-            <p class="absolute bottom-8 w-full text-center text-white/60 text-[10px] tracking-[0.4em] font-sans animate-pulse uppercase">
-                Toca para abrir
-            </p>
         </div>
     </div>
 
-    <main id="mainContent" class="opacity-0 transition-opacity duration-1000">
+    <button id="musicBtn" class="music-fab fixed bottom-6 right-6 z-50 bg-salvia-profundo text-white px-4 py-3 rounded-full flex items-center gap-3 hidden">
+        <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+        <span class="text-[10px] font-sans tracking-widest uppercase" id="musicStatus">Música: Pausar</span>
+    </button>
+
+    <main id="mainContainer" class="opacity-0 transition-opacity duration-1000">
         
-        <section class="relative h-screen flex flex-col justify-end items-center pb-24 text-center px-6">
+        <section class="relative h-[90vh] flex flex-col justify-end items-center pb-20 text-center px-6">
             <div class="absolute inset-0 overflow-hidden">
-                <img src="assets/images/fatima/fatima-hero.jpg" class="w-full h-full object-cover" alt="Fátima Hero">
-                <div class="absolute inset-0 bg-gradient-to-t from-lino-crudo via-transparent to-black/30"></div>
+                <img src="assets/images/fatima/fatima-hero.jpg" class="w-full h-full object-cover" alt="Hero">
+                <div class="absolute inset-0 bg-gradient-to-t from-lino-crudo via-transparent to-black/20"></div>
             </div>
-            
-            <div class="relative z-10 space-y-4">
-                <span class="text-white text-xs tracking-[0.5em] uppercase font-sans">Mis Quince Años</span>
-                <h1 class="text-7xl md:text-9xl text-white italic drop-shadow-lg">Fátima</h1>
-                <div class="w-12 h-[1px] bg-white mx-auto my-6"></div>
+            <div class="relative z-10 space-y-4 reveal">
+                <span class="text-white text-xs tracking-[0.5em] uppercase font-sans">Bienvenido a mis</span>
+                <h1 class="text-7xl text-white italic drop-shadow-lg">XV Años</h1>
                 <p class="text-white text-lg tracking-[0.3em] uppercase font-light">09 . Mayo . 2026</p>
             </div>
         </section>
 
         <section class="py-24 px-8 text-center bg-melocoton-rubor">
-            <div class="max-w-2xl mx-auto space-y-16">
+            <div class="max-w-xl mx-auto space-y-12 reveal">
                 <div class="space-y-4">
-                    <h3 class="text-xs tracking-[0.3em] uppercase font-sans text-salvia-profundo/60">Con la bendición de mis padres</h3>
-                    <p class="text-3xl italic">Javier Hernandez Olmedo</p>
-                    <p class="text-3xl italic">& Cristina Rocha Renteria</p>
+                    <p class="font-script text-4xl text-salvia-profundo">Con la bendición de mis padres</p>
+                    <p class="text-2xl font-bold uppercase tracking-wider">Javier Hernandez Olmedo<br>& Cristina Rocha Renteria</p>
                 </div>
                 <div class="space-y-4">
-                    <h3 class="text-xs tracking-[0.3em] uppercase font-sans text-salvia-profundo/60">Y mis padrinos</h3>
-                    <p class="text-2xl italic">Elihut Adrian Morales Ortiz</p>
-                    <p class="text-2xl italic">& Pamela Rocha Leon</p>
+                    <p class="font-script text-4xl text-salvia-profundo">Y mis padrinos</p>
+                    <p class="text-xl font-bold uppercase tracking-wider">Elihut Adrian Morales Ortiz<br>& Pamela Rocha Leon</p>
                 </div>
             </div>
         </section>
 
-        <section class="py-12 px-4 space-y-12 bg-white/30">
-            <div class="relative max-w-md mx-auto rounded-3xl overflow-hidden shadow-2xl h-[450px] group">
-                <img src="assets/images/fatima/iglesia.jpg" class="absolute inset-0 w-full h-full object-cover grayscale-[30%]" alt="Iglesia">
-                <div class="absolute inset-0 bg-salvia-profundo/40 backdrop-blur-[2px]"></div>
-                <div class="relative h-full flex flex-col justify-center items-center text-center p-8 text-white">
-                    <h4 class="text-4xl italic mb-6">Ceremonia</h4>
-                    <p class="font-sans text-xs tracking-widest uppercase mb-2">17:00 HRS</p>
-                    <p class="text-sm font-light leading-relaxed mb-8">
-                        Capilla El santuario del Señor del Calvario.<br>
-                        Culhuacan, Iztapalapa, CDMX.
-                    </p>
-                    <a href="https://maps.app.goo.gl/aZkFpdTBYHkcwD5w5" target="_blank" class="px-8 py-3 border border-white/50 text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-salvia-profundo transition-all">Ver Ubicación</a>
+        <section class="py-16 px-4 space-y-8 max-w-md mx-auto">
+            <div class="reveal">
+                <div class="bg-white rounded-[2rem] overflow-hidden shadow-xl">
+                    <img src="assets/images/fatima/iglesia.jpg" class="h-48 w-full object-cover brightness-75">
+                    <div class="p-8 text-center space-y-4">
+                        <h4 class="text-3xl italic">Misa</h4>
+                        <p class="text-sm font-sans tracking-widest text-salvia-profundo/70">17:00 HRS</p>
+                        <p class="text-sm">Capilla El santuario del Señor del Calvario. Culhuacan, Iztapalapa.</p>
+                        <a href="https://maps.app.goo.gl/aZkFpdTBYHkcwD5w5" target="_blank" class="inline-block px-8 py-3 bg-salvia-profundo text-white text-[10px] tracking-widest uppercase rounded-full">Ver Mapa</a>
+                    </div>
                 </div>
             </div>
 
-            <div class="relative max-w-md mx-auto rounded-3xl overflow-hidden shadow-2xl h-[450px] group">
-                <img src="assets/images/fatima/salon.jpg" class="absolute inset-0 w-full h-full object-cover grayscale-[30%]" alt="Salón">
-                <div class="absolute inset-0 bg-rosa-melocoton/40 backdrop-blur-[2px]"></div>
-                <div class="relative h-full flex flex-col justify-center items-center text-center p-8 text-white">
-                    <h4 class="text-4xl italic mb-6">Recepción</h4>
-                    <p class="font-sans text-xs tracking-widest uppercase mb-2">A continuación del evento</p>
-                    <p class="text-sm font-light leading-relaxed mb-8">
-                        Salon Victoria.<br>
-                        San Pablo, Iztapalapa, CDMX.
-                    </p>
-                    <a href="https://share.google/fFYJdRJzpofj0cui5" target="_blank" class="px-8 py-3 border border-white/50 text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-salvia-profundo transition-all">Ver Ubicación</a>
+            <div class="reveal">
+                <div class="bg-white rounded-[2rem] overflow-hidden shadow-xl">
+                    <img src="assets/images/fatima/salon.jpg" class="h-48 w-full object-cover brightness-75">
+                    <div class="p-8 text-center space-y-4">
+                        <h4 class="text-3xl italic">Recepción</h4>
+                        <p class="text-sm font-sans tracking-widest text-salvia-profundo/70">A CONTINUACIÓN</p>
+                        <p class="text-sm">Salon Victoria. Mariano Escobedo 55, San Pablo, Iztapalapa.</p>
+                        <a href="https://share.google/fFYJdRJzpofj0cui5" target="_blank" class="inline-block px-8 py-3 bg-salvia-profundo text-white text-[10px] tracking-widest uppercase rounded-full">Ver Mapa</a>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="py-24 px-10 text-center bg-salvia-profundo text-white">
-            <div class="max-w-lg mx-auto space-y-6">
-                <div class="w-10 h-10 mx-auto opacity-50">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20 12V8H4v12h16v-4M4 8l8 5 8-5M20 12h2v4h-2z"/></svg>
-                </div>
-                <h3 class="text-2xl italic tracking-wide">Sugerencia de Regalos</h3>
-                <p class="text-sm font-light leading-relaxed opacity-90 font-sans italic">
-                    "Para nosotros, tu presencia es el mejor regalo. Si gustas obsequiar algo más a la festejada, dispondremos de un espacio para lluvia de sobres."
-                </p>
+        <section class="py-20 px-10 text-center bg-salvia-profundo text-white reveal">
+            <h3 class="text-3xl italic mb-6">Sugerencia de Regalos</h3>
+            <p class="max-w-xs mx-auto text-sm leading-relaxed opacity-90 font-sans italic">
+                "Para nosotros, tu presencia es el mejor regalo. Si gustas obsequiar algo más a la festejada, dispondremos de un espacio para lluvia de sobres."
+            </p>
+        </section>
+
+        <section class="py-12 px-2 grid grid-cols-2 gap-2 reveal">
+            <div class="col-span-2 aspect-[4/5] overflow-hidden rounded-2xl">
+                <img src="assets/images/fatima/fatima-gallery-1.jpg" class="w-full h-full object-cover">
+            </div>
+            <div class="aspect-square overflow-hidden rounded-2xl">
+                <img src="assets/images/fatima/fatima-gallery-2.jpg" class="w-full h-full object-cover">
+            </div>
+            <div class="aspect-square overflow-hidden rounded-2xl">
+                <img src="assets/images/fatima/fatima-gallery-3.jpg" class="w-full h-full object-cover">
+            </div>
+            <div class="aspect-square overflow-hidden rounded-2xl">
+                <img src="assets/images/fatima/fatima-gallery-4.jpg" class="w-full h-full object-cover">
+            </div>
+            <div class="aspect-square overflow-hidden rounded-2xl">
+                <img src="assets/images/fatima/fatima-gallery-5.jpg" class="w-full h-full object-cover">
             </div>
         </section>
 
-        <section class="py-12 px-2 bg-lino-crudo">
-            <div class="grid grid-cols-2 gap-2">
-                <div class="col-span-2 aspect-[4/5] overflow-hidden rounded-xl">
-                    <img src="assets/images/fatima/fatima-gallery-1.jpg" class="w-full h-full object-cover">
-                </div>
-                <div class="aspect-square overflow-hidden rounded-xl">
-                    <img src="assets/images/fatima/fatima-gallery-2.jpg" class="w-full h-full object-cover">
-                </div>
-                <div class="aspect-square overflow-hidden rounded-xl">
-                    <img src="assets/images/fatima/fatima-gallery-3.jpg" class="w-full h-full object-cover">
-                </div>
-                <div class="aspect-square overflow-hidden rounded-xl">
-                    <img src="assets/images/fatima/fatima-gallery-4.jpg" class="w-full h-full object-cover">
-                </div>
-                <div class="aspect-square overflow-hidden rounded-xl">
-                    <img src="assets/images/fatima/fatima-gallery-5.jpg" class="w-full h-full object-cover">
-                </div>
+        <section class="py-20 px-6 bg-white/50 reveal">
+            <div class="max-w-md mx-auto bg-white p-8 rounded-[2.5rem] shadow-lg border border-salvia-palido/30">
+                <h3 class="text-3xl italic text-center mb-6">Confirmar Asistencia</h3>
+                <form id="rsvpForm" class="space-y-4">
+                    <input type="text" id="nombre" placeholder="Tu nombre" class="w-full p-4 text-sm font-sans" required>
+                    <input type="text" id="acompanante" placeholder="Acompañante (opcional)" class="w-full p-4 text-sm font-sans">
+                    <select id="asistencia" class="w-full p-4 text-sm font-sans" required>
+                        <option value="">¿Asistirás?</option>
+                        <option value="Si">Sí, asistiré</option>
+                        <option value="No">No podré asistir</option>
+                    </select>
+                    <button type="submit" class="w-full py-4 bg-salvia-profundo text-white tracking-[0.2em] text-xs uppercase rounded-xl shadow-lg">Enviar Confirmación</button>
+                    <a id="waBtn" href="#" target="_blank" class="hidden w-full py-4 border-2 border-salvia-profundo text-salvia-profundo text-center text-xs tracking-[0.2em] uppercase rounded-xl mt-2">Enviar por WhatsApp</a>
+                </form>
             </div>
         </section>
 
-        <footer class="py-20 text-center space-y-6 opacity-40">
-            <img src="assets/images/fatima/invytia-logo.png" class="w-24 mx-auto" alt="Invytia Logo">
-            <p class="text-[9px] tracking-[0.5em] font-sans uppercase">© 2026 INVYTIA | DIGITAL LUXURY MEMORIES</p>
+        <section class="py-20 px-6 reveal">
+            <div class="max-w-md mx-auto">
+                <h3 class="text-3xl italic text-center mb-6">Buenos Deseos</h3>
+                <form id="wishForm" class="space-y-4 text-center">
+                    <input type="text" id="wishNombre" placeholder="Tu nombre" class="w-full p-4 text-sm font-sans" required>
+                    <textarea id="wishMensaje" placeholder="Escribe tu mensaje para Fátima..." class="w-full p-4 text-sm font-sans h-32" required></textarea>
+                    <button type="submit" class="inline-block px-12 py-4 bg-rosa-melocoton text-white tracking-widest text-xs uppercase rounded-full shadow-md">Enviar Mensaje</button>
+                </form>
+            </div>
+        </section>
+
+        <footer class="py-20 text-center opacity-40">
+            <img src="assets/images/fatima/invytia-logo.png" class="w-24 mx-auto mb-6">
+            <p class="text-[9px] tracking-[0.5em] font-sans uppercase italic">© 2026 INVYTIA | DIGITAL LUXURY MEMORIES</p>
         </footer>
 
     </main>
 
     <script>
-        function abrirInvitacion() {
-            const overlay = document.getElementById('overlay');
-            const mainContent = document.getElementById('mainContent');
-            const audio = document.getElementById('bgMusic');
-            
-            // Inicia Audio
-            audio.play().catch(e => console.log("Auto-play blocked by browser"));
+        const EVENT_CONFIG = {
+            whatsapp: "5215537173820",
+            festejada: "Fátima",
+            endpoint: "" // Aquí pondrás tu URL de Google Apps Script después
+        };
 
-            // Animación de salida
+        function abrirInvitacion() {
+            const overlay = document.getElementById('introOverlay');
+            const main = document.getElementById('mainContainer');
+            const audio = document.getElementById('mainAudio');
+            const musicBtn = document.getElementById('musicBtn');
+
+            audio.play().catch(() => console.log("Audio play blocked"));
             overlay.style.opacity = '0';
+            musicBtn.classList.remove('hidden');
+            
             setTimeout(() => {
                 overlay.style.display = 'none';
-                mainContent.classList.remove('opacity-0');
-                mainContent.classList.add('opacity-100');
-                document.body.style.overflowY = 'auto'; // Habilita el scroll
+                main.classList.remove('opacity-0');
+                document.body.classList.remove('locked');
+                setupScrollReveal();
             }, 1000);
         }
 
-        // Bloquea el scroll hasta que se abra
-        document.body.style.overflow = 'hidden';
+        function setupScrollReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('show');
+                });
+            }, { threshold: 0.1 });
+            reveals.forEach(r => observer.observe(r));
+        }
+
+        // Control de Música
+        const musicBtn = document.getElementById('musicBtn');
+        const audio = document.getElementById('mainAudio');
+        const musicStatus = document.getElementById('musicStatus');
+        let isPlaying = true;
+
+        musicBtn.onclick = () => {
+            if (isPlaying) {
+                audio.pause();
+                musicStatus.innerText = "Música: Reanudar";
+            } else {
+                audio.play();
+                musicStatus.innerText = "Música: Pausar";
+            }
+            isPlaying = !isPlaying;
+        };
+
+        // RSVP Logic
+        document.getElementById('rsvpForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const nom = document.getElementById('nombre').value;
+            const aco = document.getElementById('acompanante').value || "Ninguno";
+            const asi = document.getElementById('asistencia').value;
+            const btnWa = document.getElementById('waBtn');
+
+            const msg = `Hola! Confirmo mi asistencia para los XV de ${EVENT_CONFIG.festejada}. \nNombre: ${nom} \nAcompañante: ${aco} \nAsistencia: ${asi}`;
+            btnWa.href = `https://wa.me/${EVENT_CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
+            btnWa.classList.remove('hidden');
+            btnWa.classList.add('flex', 'justify-center', 'items-center');
+            
+            // Aquí se enviaría a Google Sheets en el futuro
+            alert("¡Gracias! Ahora por favor haz clic en 'Enviar por WhatsApp' para finalizar.");
+        };
+
+        // Wish Form Logic
+        document.getElementById('wishForm').onsubmit = (e) => {
+            e.preventDefault();
+            alert("¡Mensaje enviado con éxito! Fátima lo recibirá con mucho cariño.");
+            e.target.reset();
+        };
     </script>
 </body>
 </html>
