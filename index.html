@@ -38,13 +38,13 @@
             transition: transform 0.8s ease-in-out;
         }
 
-        /* Textura Mármol Orgánico Premium (Sin Rombos) */
+        /* Textura Mármol Orgánico Premium */
         .bg-marble {
             background-color: #fbfbfb;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E");
         }
 
-        /* Efecto Vidrio iOS (Glassmorphism) para el Botón Flotante */
+        /* Efectos Vidrio iOS (Glassmorphism) */
         .glass-fab {
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(16px);
@@ -53,6 +53,25 @@
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
             color: #6B7A63;
         }
+        
+        .glass-control {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .glass-control:hover { background: rgba(255, 255, 255, 0.25); transform: scale(1.05); }
+        .glass-control:active { transform: scale(0.95); }
+
+        /* Estilos para el Lightbox */
+        #lightbox {
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        #lb-img {
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.2, 1), opacity 0.3s ease;
+        }
     </style>
 </head>
 <body class="bg-lino-crudo font-serif text-salvia-profundo overflow-x-hidden">
@@ -60,7 +79,6 @@
     <audio id="bgMusic" src="assets/images/fatima/fatima-cancion.mp3" loop></audio>
 
     <div id="overlay" class="fixed inset-0 z-[100] bg-marble flex items-center justify-center p-4 transition-opacity duration-1000">
-        
         <div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-30">
             <svg width="600" height="600" viewBox="0 0 200 200" fill="none" stroke="#6B7A63" stroke-width="0.5">
                 <path d="M100,20 C130,50 180,80 100,180 C20,80 70,50 100,20 Z" opacity="0.5"/>
@@ -71,20 +89,17 @@
 
         <div class="relative w-full max-w-lg aspect-[4/3] cursor-pointer group" onclick="abrirInvitacion()">
             <div class="absolute inset-0 bg-salvia-profundo envelope-shadow rounded-sm"></div>
-
             <div id="flap" class="absolute inset-0 z-20">
                 <svg viewBox="0 0 500 250" class="w-full fill-salvia-palido drop-shadow-md">
                     <path d="M0,0 L250,160 L500,0 Z" />
                 </svg>
             </div>
-
             <div class="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-24 h-24 bg-salvia-profundo rounded-full shadow-xl flex items-center justify-center border-2 border-white/20">
                 <div class="text-white text-center">
                     <p class="text-[8px] tracking-[0.3em] font-sans">MIS XV</p>
                     <p class="text-sm font-semibold tracking-widest italic">Fátima</p>
                 </div>
             </div>
-
             <p class="absolute bottom-8 w-full text-center text-white/60 text-[10px] tracking-[0.4em] font-sans animate-pulse uppercase z-30">
                 Toca para abrir
             </p>
@@ -103,7 +118,6 @@
                 <img src="assets/images/fatima/fatima-hero.jpg" class="w-full h-full object-cover" alt="Fátima Hero">
                 <div class="absolute inset-0 bg-gradient-to-t from-lino-crudo via-transparent to-black/30"></div>
             </div>
-            
             <div class="relative z-10 space-y-4">
                 <span class="text-white text-xs tracking-[0.5em] uppercase font-sans">Mis Quince Años</span>
                 <h1 class="text-7xl md:text-9xl text-white italic drop-shadow-lg">Fátima</h1>
@@ -135,8 +149,7 @@
                     <h4 class="text-4xl italic mb-6">Ceremonia</h4>
                     <p class="font-sans text-xs tracking-widest uppercase mb-2">17:00 HRS</p>
                     <p class="text-sm font-light leading-relaxed mb-8">
-                        Capilla El santuario del Señor del Calvario.<br>
-                        Culhuacan, Iztapalapa, CDMX.
+                        Capilla El santuario del Señor del Calvario.<br>Culhuacan, Iztapalapa, CDMX.
                     </p>
                     <a href="https://maps.app.goo.gl/aZkFpdTBYHkcwD5w5" target="_blank" class="px-8 py-3 border border-white/50 text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-salvia-profundo transition-all">Ver Ubicación</a>
                 </div>
@@ -149,8 +162,7 @@
                     <h4 class="text-4xl italic mb-6">Recepción</h4>
                     <p class="font-sans text-xs tracking-widest uppercase mb-2">A continuación del evento</p>
                     <p class="text-sm font-light leading-relaxed mb-8">
-                        Salon Victoria.<br>
-                        San Pablo, Iztapalapa, CDMX.
+                        Salon Victoria.<br>San Pablo, Iztapalapa, CDMX.
                     </p>
                     <a href="https://share.google/fFYJdRJzpofj0cui5" target="_blank" class="px-8 py-3 border border-white/50 text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-salvia-profundo transition-all">Ver Ubicación</a>
                 </div>
@@ -168,14 +180,13 @@
                 </p>
             </div>
         </section>
-        
+
         <section class="py-24 px-8 text-center bg-white/40">
             <div class="max-w-md mx-auto">
                 <h3 class="text-4xl italic mb-4">Confirmar asistencia</h3>
                 <p class="font-sans text-xs leading-relaxed opacity-80 mb-10 text-salvia-profundo">
                     Por favor llena tus datos para confirmar. Al finalizar podrás enviar tu confirmación por WhatsApp.
                 </p>
-
                 <form id="rsvp-form" class="space-y-4 font-sans text-sm text-left">
                     <div>
                         <label class="block text-[10px] tracking-[0.2em] uppercase opacity-60 mb-2 px-2">Tu nombre</label>
@@ -196,7 +207,6 @@
                     <div class="pt-4">
                         <button type="submit" id="btn-rsvp" class="w-full bg-salvia-profundo text-white tracking-[0.2em] uppercase text-xs py-4 rounded-2xl hover:bg-opacity-90 transition shadow-lg">Enviar Confirmación</button>
                     </div>
-                    
                     <div class="pt-2">
                         <a id="btn-wa" href="#" target="_blank" class="hidden w-full border border-salvia-profundo text-salvia-profundo tracking-[0.2em] uppercase text-xs py-4 rounded-2xl hover:bg-white transition shadow-sm flex justify-center items-center gap-2">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.01 2.002c-5.511 0-9.998 4.486-9.998 9.997 0 1.954.558 3.79 1.536 5.381L2 22l4.805-1.481c1.556.883 3.328 1.349 5.205 1.349 5.511 0 9.998-4.486 9.998-9.997 0-5.511-4.487-9.997-9.998-9.997zm5.556 14.331c-.173.486-.983.945-1.391 1.011-.409.066-1.018.15-3.141-.729-2.551-1.055-4.183-3.666-4.312-3.839-.129-.173-1.03-1.371-1.03-2.618 0-1.247.649-1.863.882-2.106.233-.243.504-.304.676-.304.173 0 .346.007.505.015.165.008.384-.065.602.457.225.539.771 1.884.841 2.023.07.139.116.304.03.504-.086.201-.129.324-.259.475-.129.151-.271.324-.388.453-.131.144-.268.301-.115.564.153.263.682 1.125 1.464 1.821.996.887 1.834 1.163 2.095 1.293.261.13.414.108.568-.065.154-.173.667-.775.848-1.042.181-.267.362-.223.602-.137.24.086 1.517.714 1.776.843.259.129.432.194.494.302.061.109.061.637-.112 1.123z"/></svg>
@@ -213,7 +223,6 @@
                 <p class="font-sans text-xs leading-relaxed opacity-80 mb-10 text-salvia-profundo">
                     Deja un mensaje para Fátima. Tu mensaje se guardará con cariño.
                 </p>
-
                 <form id="wish-form" class="space-y-4 font-sans text-sm text-left">
                     <div>
                         <label class="block text-[10px] tracking-[0.2em] uppercase opacity-60 mb-2 px-2">Tu nombre</label>
@@ -230,22 +239,22 @@
             </div>
         </section>
 
-        <section class="py-12 px-2 bg-lino-crudo">
+        <section class="py-12 px-2 bg-lino-crudo" id="gallery-section">
             <div class="grid grid-cols-2 gap-2">
-                <div class="col-span-2 aspect-[4/5] overflow-hidden rounded-xl">
-                    <img src="assets/images/fatima/fatima-gallery-1.jpg" class="w-full h-full object-cover">
+                <div class="col-span-2 aspect-[4/5] overflow-hidden rounded-xl cursor-pointer gallery-item" data-index="0">
+                    <img src="assets/images/fatima/fatima-gallery-1.jpg" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
                 </div>
-                <div class="aspect-square overflow-hidden rounded-xl">
-                    <img src="assets/images/fatima/fatima-gallery-2.jpg" class="w-full h-full object-cover">
+                <div class="aspect-square overflow-hidden rounded-xl cursor-pointer gallery-item" data-index="1">
+                    <img src="assets/images/fatima/fatima-gallery-2.jpg" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
                 </div>
-                <div class="aspect-square overflow-hidden rounded-xl">
-                    <img src="assets/images/fatima/fatima-gallery-3.jpg" class="w-full h-full object-cover">
+                <div class="aspect-square overflow-hidden rounded-xl cursor-pointer gallery-item" data-index="2">
+                    <img src="assets/images/fatima/fatima-gallery-3.jpg" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
                 </div>
-                <div class="aspect-square overflow-hidden rounded-xl">
-                    <img src="assets/images/fatima/fatima-gallery-4.jpg" class="w-full h-full object-cover">
+                <div class="aspect-square overflow-hidden rounded-xl cursor-pointer gallery-item" data-index="3">
+                    <img src="assets/images/fatima/fatima-gallery-4.jpg" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
                 </div>
-                <div class="aspect-square overflow-hidden rounded-xl">
-                    <img src="assets/images/fatima/fatima-gallery-5.jpg" class="w-full h-full object-cover">
+                <div class="aspect-square overflow-hidden rounded-xl cursor-pointer gallery-item" data-index="4">
+                    <img src="assets/images/fatima/fatima-gallery-5.jpg" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
                 </div>
             </div>
         </section>
@@ -257,11 +266,25 @@
 
     </main>
 
+    <div id="lightbox" class="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex items-center justify-center opacity-0 invisible">
+        <button id="lb-close" class="absolute top-6 right-6 z-50 glass-control w-12 h-12 rounded-full flex items-center justify-center">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+        </button>
+        
+        <div class="relative w-full h-full flex items-center justify-center p-4">
+            <img id="lb-img" src="" class="max-w-full max-h-full object-contain rounded-md shadow-2xl scale-95">
+        </div>
+        
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 font-sans text-xs tracking-widest" id="lb-counter">
+            1 / 5
+        </div>
+    </div>
+
     <script>
         const CONFIG = {
             whatsappDestino: "525537173820",
             festejada: "Fátima",
-            googleAppsScriptURL: "" // Agrega tu URL aquí después
+            googleAppsScriptURL: "" 
         };
 
         const audio = document.getElementById('bgMusic');
@@ -274,7 +297,6 @@
             const overlay = document.getElementById('overlay');
             const mainContent = document.getElementById('mainContent');
             
-            // Intenta reproducir audio
             audio.play().then(() => {
                 isPlaying = true;
                 fabLabel.textContent = "Pausar";
@@ -286,21 +308,18 @@
                 fabIndicator.classList.remove('animate-pulse');
             });
 
-            // Animación
             overlay.style.opacity = '0';
             setTimeout(() => {
                 overlay.style.display = 'none';
                 mainContent.classList.remove('opacity-0');
                 mainContent.classList.add('opacity-100');
-                document.body.style.overflowY = 'auto'; // Habilita el scroll
+                document.body.style.overflowY = 'auto'; 
                 
-                // Muestra el botón flotante
                 fab.classList.remove('hidden');
                 setTimeout(() => fab.classList.remove('opacity-0'), 100);
             }, 1000);
         }
 
-        // Lógica del Botón Flotante
         fab.addEventListener('click', () => {
             if (isPlaying) {
                 audio.pause();
@@ -314,7 +333,92 @@
             isPlaying = !isPlaying;
         });
 
-        // Lógica RSVP
+        // --- LÓGICA LIGHTBOX (Galería Interactiva) ---
+        const lightbox = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lb-img');
+        const lbClose = document.getElementById('lb-close');
+        const lbCounter = document.getElementById('lb-counter');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        // Extraer rutas de imágenes
+        const images = Array.from(galleryItems).map(item => item.querySelector('img').src);
+        let currentIndex = 0;
+
+        function openLightbox(index) {
+            currentIndex = index;
+            updateLightboxImage();
+            lightbox.classList.remove('invisible');
+            lightbox.classList.add('opacity-100');
+            setTimeout(() => lbImg.classList.remove('scale-95'), 50);
+            document.body.style.overflow = 'hidden'; // Bloquear scroll de fondo
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('opacity-100');
+            lbImg.classList.add('scale-95');
+            setTimeout(() => {
+                lightbox.classList.add('invisible');
+                document.body.style.overflow = ''; // Restaurar scroll
+            }, 400);
+        }
+
+        function updateLightboxImage() {
+            lbImg.style.opacity = '0.5';
+            setTimeout(() => {
+                lbImg.src = images[currentIndex];
+                lbCounter.textContent = `${currentIndex + 1} / ${images.length}`;
+                lbImg.style.opacity = '1';
+            }, 150);
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateLightboxImage();
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateLightboxImage();
+        }
+
+        // Eventos Click en Galería
+        galleryItems.forEach((item) => {
+            item.addEventListener('click', () => {
+                openLightbox(parseInt(item.getAttribute('data-index')));
+            });
+        });
+
+        lbClose.addEventListener('click', closeLightbox);
+        
+        // Cerrar al tocar el fondo negro
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        // Eventos Touch (Swipe Nativo)
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const SWIPE_THRESHOLD = 40;
+
+        lightbox.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        lightbox.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const distance = touchEndX - touchStartX;
+            if (distance < -SWIPE_THRESHOLD) {
+                nextImage(); // Swipe Izquierda
+            } else if (distance > SWIPE_THRESHOLD) {
+                prevImage(); // Swipe Derecha
+            }
+        }
+        // --- FIN LÓGICA LIGHTBOX ---
+
         document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btn-rsvp');
@@ -327,14 +431,6 @@
             btn.textContent = "Procesando...";
             btn.disabled = true;
 
-            // TODO: Integración Google Spreadsheets
-            /*
-            if(CONFIG.googleAppsScriptURL) {
-                await fetch(CONFIG.googleAppsScriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ type: 'rsvp', nombre, acompanante, asistencia }) });
-            }
-            */
-
-            // WhatsApp Build
             const acompText = acompanante ? `. Nombre del acompañante: ${acompanante}.` : ".";
             const msg = `Hola, confirmo mi asistencia a los XV años de ${CONFIG.festejada}. Mi nombre es: ${nombre}${acompText} Asistencia: ${asistencia}. ¡Gracias!`;
             
@@ -344,23 +440,12 @@
             waBtn.classList.remove('hidden');
         });
 
-        // Lógica Buenos Deseos
         document.getElementById('wish-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btn-wish');
             
-            const nombre = document.getElementById('wish-nombre').value;
-            const mensaje = document.getElementById('wish-mensaje').value;
-
             btn.textContent = "Enviando...";
             btn.disabled = true;
-
-            // TODO: Integración Google Spreadsheets
-            /*
-            if(CONFIG.googleAppsScriptURL) {
-                await fetch(CONFIG.googleAppsScriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ type: 'wish', nombre, mensaje }) });
-            }
-            */
 
             setTimeout(() => {
                 btn.textContent = "¡Mensaje Enviado!";
