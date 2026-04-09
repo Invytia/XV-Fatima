@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XV Años - Fátima | Invytia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'melocoton-rubor': '#EFDBCF',
+                        'lino-crudo': '#E5D5C6',
+                        'salvia-palido': '#CBD1B2',
+                        'salvia-profundo': '#6B7A63',
+                        'rosa-melocoton': '#E3AF9F',
+                    },
+                    fontFamily: {
+                        'serif': ['Cormorant Garamond', 'serif'],
+                        'sans': ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .envelope-shadow { box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        .fade-in { animation: fadeIn 1.5s ease-in forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        /* Estilo para el scroll suave */
+        html { scroll-behavior: smooth; }
+        
+        /* Animación del sobre abriéndose */
+        .flap-open {
+            transform: rotateX(180deg);
+            transform-origin: top;
+            transition: transform 0.8s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-lino-crudo font-serif text-salvia-profundo overflow-x-hidden">
+
+    <audio id="bgMusic" src="assets/images/fatima/fatima-cancion.mp3" loop></audio>
+
+    <div id="overlay" class="fixed inset-0 z-[100] bg-stone-900 flex items-center justify-center p-4 transition-opacity duration-1000">
+        <div class="relative w-full max-w-lg aspect-[4/3] cursor-pointer group" onclick="abrirInvitacion()">
+            <div class="absolute inset-0 bg-salvia-profundo envelope-shadow rounded-sm"></div>
+            
+            <div class="absolute inset-x-4 top-4 bottom-4 bg-melocoton-rubor shadow-inner"></div>
+
+            <div id="flap" class="absolute inset-0 z-20">
+                <svg viewBox="0 0 500 250" class="w-full fill-salvia-palido drop-shadow-md">
+                    <path d="M0,0 L250,160 L500,0 Z" />
+                </svg>
+            </div>
+
+            <div class="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-24 h-24 bg-salvia-profundo rounded-full shadow-xl flex items-center justify-center border-2 border-white/20">
+                <div class="text-white text-center">
+                    <p class="text-[8px] tracking-[0.3em] font-sans">MIS XV</p>
+                    <p class="text-sm font-semibold tracking-widest italic">Fátima</p>
+                </div>
+            </div>
+
+            <p class="absolute bottom-8 w-full text-center text-white/60 text-[10px] tracking-[0.4em] font-sans animate-pulse uppercase">
+                Toca para abrir
+            </p>
+        </div>
+    </div>
+
+    <main id="mainContent" class="opacity-0 transition-opacity duration-1000">
+        
+        <section class="relative h-screen flex flex-col justify-end items-center pb-24 text-center px-6">
+            <div class="absolute inset-0 overflow-hidden">
+                <img src="assets/images/fatima/fatima-hero.jpg" class="w-full h-full object-cover" alt="Fátima Hero">
+                <div class="absolute inset-0 bg-gradient-to-t from-lino-crudo via-transparent to-black/30"></div>
+            </div>
+            
+            <div class="relative z-10 space-y-4">
+                <span class="text-white text-xs tracking-[0.5em] uppercase font-sans">Mis Quince Años</span>
+                <h1 class="text-7xl md:text-9xl text-white italic drop-shadow-lg">Fátima</h1>
+                <div class="w-12 h-[1px] bg-white mx-auto my-6"></div>
+                <p class="text-white text-lg tracking-[0.3em] uppercase font-light">09 . Mayo . 2026</p>
+            </div>
+        </section>
+
+        <section class="py-24 px-8 text-center bg-melocoton-rubor">
+            <div class="max-w-2xl mx-auto space-y-16">
+                <div class="space-y-4">
+                    <h3 class="text-xs tracking-[0.3em] uppercase font-sans text-salvia-profundo/60">Con la bendición de mis padres</h3>
+                    <p class="text-3xl italic">Javier Hernandez Olmedo</p>
+                    <p class="text-3xl italic">& Cristina Rocha Renteria</p>
+                </div>
+                <div class="space-y-4">
+                    <h3 class="text-xs tracking-[0.3em] uppercase font-sans text-salvia-profundo/60">Y mis padrinos</h3>
+                    <p class="text-2xl italic">Elihut Adrian Morales Ortiz</p>
+                    <p class="text-2xl italic">& Pamela Rocha Leon</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12 px-4 space-y-12 bg-white/30">
+            <div class="relative max-w-md mx-auto rounded-3xl overflow-hidden shadow-2xl h-[450px] group">
+                <img src="assets/images/fatima/iglesia.jpg" class="absolute inset-0 w-full h-full object-cover grayscale-[30%]" alt="Iglesia">
+                <div class="absolute inset-0 bg-salvia-profundo/40 backdrop-blur-[2px]"></div>
+                <div class="relative h-full flex flex-col justify-center items-center text-center p-8 text-white">
+                    <h4 class="text-4xl italic mb-6">Ceremonia</h4>
+                    <p class="font-sans text-xs tracking-widest uppercase mb-2">17:00 HRS</p>
+                    <p class="text-sm font-light leading-relaxed mb-8">
+                        Capilla El santuario del Señor del Calvario.<br>
+                        Culhuacan, Iztapalapa, CDMX.
+                    </p>
+                    <a href="https://maps.app.goo.gl/aZkFpdTBYHkcwD5w5" target="_blank" class="px-8 py-3 border border-white/50 text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-salvia-profundo transition-all">Ver Ubicación</a>
+                </div>
+            </div>
+
+            <div class="relative max-w-md mx-auto rounded-3xl overflow-hidden shadow-2xl h-[450px] group">
+                <img src="assets/images/fatima/salon.jpg" class="absolute inset-0 w-full h-full object-cover grayscale-[30%]" alt="Salón">
+                <div class="absolute inset-0 bg-rosa-melocoton/40 backdrop-blur-[2px]"></div>
+                <div class="relative h-full flex flex-col justify-center items-center text-center p-8 text-white">
+                    <h4 class="text-4xl italic mb-6">Recepción</h4>
+                    <p class="font-sans text-xs tracking-widest uppercase mb-2">A continuación del evento</p>
+                    <p class="text-sm font-light leading-relaxed mb-8">
+                        Salon Victoria.<br>
+                        San Pablo, Iztapalapa, CDMX.
+                    </p>
+                    <a href="https://share.google/fFYJdRJzpofj0cui5" target="_blank" class="px-8 py-3 border border-white/50 text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-salvia-profundo transition-all">Ver Ubicación</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 px-10 text-center bg-salvia-profundo text-white">
+            <div class="max-w-lg mx-auto space-y-6">
+                <div class="w-10 h-10 mx-auto opacity-50">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20 12V8H4v12h16v-4M4 8l8 5 8-5M20 12h2v4h-2z"/></svg>
+                </div>
+                <h3 class="text-2xl italic tracking-wide">Sugerencia de Regalos</h3>
+                <p class="text-sm font-light leading-relaxed opacity-90 font-sans italic">
+                    "Para nosotros, tu presencia es el mejor regalo. Si gustas obsequiar algo más a la festejada, dispondremos de un espacio para lluvia de sobres."
+                </p>
+            </div>
+        </section>
+
+        <section class="py-12 px-2 bg-lino-crudo">
+            <div class="grid grid-cols-2 gap-2">
+                <div class="col-span-2 aspect-[4/5] overflow-hidden rounded-xl">
+                    <img src="assets/images/fatima/fatima-gallery-1.jpg" class="w-full h-full object-cover">
+                </div>
+                <div class="aspect-square overflow-hidden rounded-xl">
+                    <img src="assets/images/fatima/fatima-gallery-2.jpg" class="w-full h-full object-cover">
+                </div>
+                <div class="aspect-square overflow-hidden rounded-xl">
+                    <img src="assets/images/fatima/fatima-gallery-3.jpg" class="w-full h-full object-cover">
+                </div>
+                <div class="aspect-square overflow-hidden rounded-xl">
+                    <img src="assets/images/fatima/fatima-gallery-4.jpg" class="w-full h-full object-cover">
+                </div>
+                <div class="aspect-square overflow-hidden rounded-xl">
+                    <img src="assets/images/fatima/fatima-gallery-5.jpg" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-20 text-center space-y-6 opacity-40">
+            <img src="assets/images/fatima/invytia-logo.png" class="w-24 mx-auto" alt="Invytia Logo">
+            <p class="text-[9px] tracking-[0.5em] font-sans uppercase">© 2026 INVYTIA | DIGITAL LUXURY MEMORIES</p>
+        </footer>
+
+    </main>
+
+    <script>
+        function abrirInvitacion() {
+            const overlay = document.getElementById('overlay');
+            const mainContent = document.getElementById('mainContent');
+            const audio = document.getElementById('bgMusic');
+            
+            // Inicia Audio
+            audio.play().catch(e => console.log("Auto-play blocked by browser"));
+
+            // Animación de salida
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                mainContent.classList.remove('opacity-0');
+                mainContent.classList.add('opacity-100');
+                document.body.style.overflowY = 'auto'; // Habilita el scroll
+            }, 1000);
+        }
+
+        // Bloquea el scroll hasta que se abra
+        document.body.style.overflow = 'hidden';
+    </script>
+</body>
+</html>
