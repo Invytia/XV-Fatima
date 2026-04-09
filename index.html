@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XV Años - Fátima | Invytia</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&family=Allura&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -20,6 +20,7 @@
                     fontFamily: {
                         'serif': ['Cormorant Garamond', 'serif'],
                         'sans': ['Montserrat', 'sans-serif'],
+                        'script': ['Allura', 'cursive'],
                     }
                 }
             }
@@ -259,6 +260,33 @@
             </div>
         </section>
 
+        <section class="py-20 px-8 text-center bg-white/40">
+            <div class="max-w-md mx-auto">
+                <div class="flex justify-center mb-6 text-salvia-profundo opacity-60">
+                    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 7.5l-9 4.5 9 4.5v-9z"></path>
+                        <path d="M2 7.5l9 4.5-9 4.5v-9z"></path>
+                        <circle cx="12" cy="12" r="2"></circle>
+                    </svg>
+                </div>
+                <h3 class="text-3xl italic mb-4">Código de Vestimenta</h3>
+                <p class="font-sans text-xs tracking-[0.3em] uppercase font-semibold mb-4 text-salvia-profundo">Formal</p>
+                <p class="font-sans text-xs leading-relaxed opacity-80 max-w-xs mx-auto text-salvia-profundo">
+                    Te invitamos a respetar la formalidad y elegancia de nuestro evento.
+                </p>
+            </div>
+        </section>
+
+        <section class="py-24 px-10 text-center bg-melocoton-rubor">
+            <div class="max-w-lg mx-auto space-y-6">
+                <p class="text-3xl md:text-4xl italic leading-relaxed text-salvia-profundo font-light px-2">
+                    "Hay momentos inolvidables que se atesoran en el corazón para siempre. Gracias por ser parte de mi historia."
+                </p>
+                <div class="w-12 h-[1px] bg-salvia-profundo/30 mx-auto mt-8 mb-6"></div>
+                <p class="font-script text-5xl text-salvia-profundo">Fátima</p>
+            </div>
+        </section>
+
         <footer class="py-20 text-center space-y-6 opacity-40">
             <img src="assets/images/fatima/invytia-logo.png" class="w-24 mx-auto" alt="Invytia Logo">
             <p class="text-[9px] tracking-[0.5em] font-sans uppercase">© 2026 INVYTIA | DIGITAL LUXURY MEMORIES</p>
@@ -270,11 +298,9 @@
         <button id="lb-close" class="absolute top-6 right-6 z-50 glass-control w-12 h-12 rounded-full flex items-center justify-center">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"></path></svg>
         </button>
-        
         <div class="relative w-full h-full flex items-center justify-center p-4">
             <img id="lb-img" src="" class="max-w-full max-h-full object-contain rounded-md shadow-2xl scale-95">
         </div>
-        
         <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 font-sans text-xs tracking-widest" id="lb-counter">
             1 / 5
         </div>
@@ -333,14 +359,13 @@
             isPlaying = !isPlaying;
         });
 
-        // --- LÓGICA LIGHTBOX (Galería Interactiva) ---
+        // --- LÓGICA LIGHTBOX ---
         const lightbox = document.getElementById('lightbox');
         const lbImg = document.getElementById('lb-img');
         const lbClose = document.getElementById('lb-close');
         const lbCounter = document.getElementById('lb-counter');
         const galleryItems = document.querySelectorAll('.gallery-item');
         
-        // Extraer rutas de imágenes
         const images = Array.from(galleryItems).map(item => item.querySelector('img').src);
         let currentIndex = 0;
 
@@ -350,7 +375,7 @@
             lightbox.classList.remove('invisible');
             lightbox.classList.add('opacity-100');
             setTimeout(() => lbImg.classList.remove('scale-95'), 50);
-            document.body.style.overflow = 'hidden'; // Bloquear scroll de fondo
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeLightbox() {
@@ -358,7 +383,7 @@
             lbImg.classList.add('scale-95');
             setTimeout(() => {
                 lightbox.classList.add('invisible');
-                document.body.style.overflow = ''; // Restaurar scroll
+                document.body.style.overflow = ''; 
             }, 400);
         }
 
@@ -381,7 +406,6 @@
             updateLightboxImage();
         }
 
-        // Eventos Click en Galería
         galleryItems.forEach((item) => {
             item.addEventListener('click', () => {
                 openLightbox(parseInt(item.getAttribute('data-index')));
@@ -390,12 +414,10 @@
 
         lbClose.addEventListener('click', closeLightbox);
         
-        // Cerrar al tocar el fondo negro
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) closeLightbox();
         });
 
-        // Eventos Touch (Swipe Nativo)
         let touchStartX = 0;
         let touchEndX = 0;
         const SWIPE_THRESHOLD = 40;
@@ -412,13 +434,13 @@
         function handleSwipe() {
             const distance = touchEndX - touchStartX;
             if (distance < -SWIPE_THRESHOLD) {
-                nextImage(); // Swipe Izquierda
+                nextImage();
             } else if (distance > SWIPE_THRESHOLD) {
-                prevImage(); // Swipe Derecha
+                prevImage();
             }
         }
-        // --- FIN LÓGICA LIGHTBOX ---
 
+        // --- LÓGICA FORMS ---
         document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btn-rsvp');
